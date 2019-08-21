@@ -1,7 +1,7 @@
 from graph_struct import Graph
 import pandas as pd
 
-with open('socfb-Caltech36.mtx', 'rb') as f:
+with open('socfb-Haverford76.mtx', 'rb') as f:
     d = f.readlines()[1:]
 
 d = [x.decode('utf-8').strip() for x in d]
@@ -25,5 +25,14 @@ while(True):
     if l==0:
         break
     else:
-        print(str(k)+'_core - '+ str(l))
         k+=1
+
+print('k_core - '+ str(k))
+
+ct = 0
+for i in range(num_nodes):
+    ct+=g.getClustercoeff(i+1)
+ct/=num_nodes
+
+print('avg_clustering_coeff - '+ str(ct))
+print('num_triangle - '+ str(g.getNumtri()))
