@@ -20,4 +20,4 @@ g1.addEdge(5+1,1+ 8)
 g1.addEdge(6+1,1+ 7)
 g1.addEdge(6+1,1+ 8)
 
-print('k_core - '+ str(g1.isKcores(3)))
+print('k_core - '+ str(g1.isKcores(4)))

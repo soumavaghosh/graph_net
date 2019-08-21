@@ -35,44 +35,31 @@ class Graph:
 
         return num/self.V
 
-    def compKcore(self, n, k, deg, visited):
+    def compKcore(self, n, k, deg):
 
-        visited[n-1] = True
+        if deg[n - 1] < k:
+            deg[n - 1] = 0
+            for i in self.graph[n]:
+                if deg[i - 1]>0:
+                    deg[i-1]-=1
 
-        for i in self.graph[n]:
-            if deg[n-1]<k:
-                deg[i-1]-=1
-
-            if not visited[n-1]:
-                if self.compKcore(i, k, deg, visited):
-                    deg[n-1]-=1
-
-        return deg[n-1] < k
+        return deg
 
 
     def isKcores(self, k):
         deg = [0]*self.V
+
         for i in list(self.graph.keys()):
             deg[i-1] = len(self.graph[i])
 
-        visited = [False]*self.V
+        old_deg = deg[:]
+        while True:
+            for i in range(self.V):
+                if not deg[i] == 0:
+                    deg = self.compKcore(i+1, k, deg)
+            if old_deg==deg:
+                break
+            else:
+                old_deg = deg
 
-        for i in range(self.V):
-            if visited[i] == False:
-                self.compKcore(i+1, k, deg, visited)
-
-        for v in range(self.V):
-
-            # Only considering those vertices which have
-            # vDegree >= K after DFS
-            if deg[v] >= k:
-                print (str("\n [ ") + str(v+1) + "  " + str(deg[v]) + str(" ]"))
-
-                # Traverse adjacency list of v and print only
-                # those adjacent which have vvDegree >= k
-                # after DFS
-                for i in self.graph[v+1]:
-                    if deg[i-1] >= k:
-                        print("-> " + str(i))
-
-        return
+        return len([x for x in deg if x>=k])

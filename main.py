@@ -19,4 +19,11 @@ print('min_deg - '+ str(g.getMindeg()))
 print('max_deg - '+ str(g.getMaxdeg()))
 print('avg_deg - '+ str(g.getAvgdeg()))
 
-print('k_core - '+ str(g.isKcores(50)))
+k = 1
+while(True):
+    l = g.isKcores(k)
+    if l==0:
+        break
+    else:
+        print(str(k)+'_core - '+ str(l))
+        k+=1
